@@ -1,0 +1,28 @@
+{
+  "name": "mmm-froelingconnect",
+  "version": "1.0.0",
+  "description": "Fröling Connect module for [MagicMirror²](https://github.com/MichMich/MagicMirror). The module connects to the Fröling API and displays some device data. This module is inspired from https://github.com/TA2k/ioBroker.froeling",
+  "author": "Markus Eckert",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.24.0"
+  },
+  "main": "MMM-FroelingConnect.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eckonator/MMM-FroelingConnect.git"
+  },
+  "keywords": [
+    "MagicMirrir",
+    "fröling connect",
+    "fröling"
+  ],
+  "bugs": {
+    "url": "https://github.com/eckonator/MMM-FroelingConnect/issues"
+  },
+  "homepage": "https://github.com/eckonator/MMM-FroelingConnect#readme"
+}

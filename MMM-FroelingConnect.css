@@ -1,0 +1,24 @@
+.mmm-froelingconnect-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.mmm-froelingconnect-wrapper .component-wrapper {
+    flex-grow: 1;
+    flex-basis: 25%;
+    border: 1px solid white;
+    padding: 10px;
+    margin: 10px;
+}
+
+.mmm-froelingconnect-wrapper .component-wrapper-1 {
+    flex-basis: 33%;
+}
+
+.mmm-froelingconnect-wrapper .component-wrapper-1 object {
+    position: relative;
+    left: -17%;
+    transform: scale(1.6);
+}
