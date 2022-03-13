@@ -37,9 +37,11 @@ modules: [
         position: 'middle_center',
         header: 'FRÖLING PE1 / Heizungsvisualisierung',
         config: {
-            username : 'youremail@provider.com', // FRÖLUNG Connect - APP Username or Email.
-            password : 'yourPassword', // FRÖLUNG Connect - APP Password.
-            interval : 5 // Interval in minutes how often the data should be fetched from the API.
+            username: 'youremail@provider.com', // FRÖLUNG Connect - APP Username or Email.
+            password: 'yourPassword', // FRÖLUNG Connect - APP Password.
+            interval: 5, // Interval in minutes how often the data should be fetched from the API.
+            modulWidth: '700px', // Max width in px, %, vw, em ... for this module.
+            amongComponents: false // Display components from top to bottom.
         }
     }
 ]
@@ -49,10 +51,12 @@ modules: [
 
 The following property can be configured:
 
-| Option      | Description                                                            |        Default value         |
-| ------------|------------------------------------------------------------------------|:----------------------------:|
-| username    | FRÖLUNG Connect - APP Username or Email.                               | ```youremail@provider.com``` |
-| password    | FRÖLUNG Connect - APP Password.                                        |      ```yourPassword```      |
-| interval    | Interval in minutes how often the data should be fetched from the API. |           ```5```            |
+| Option          | Description                                                            |        Default value         |
+|-----------------|------------------------------------------------------------------------|:----------------------------:|
+| username        | FRÖLUNG Connect - APP Username or Email.                               | ```youremail@provider.com``` |
+| password        | FRÖLUNG Connect - APP Password.                                        |      ```yourPassword```      |
+| interval        | Interval in minutes how often the data should be fetched from the API. |           ```5```            |
+| modulWidth      | Max width in px, %, vw, em ... for this module.                        |         ```700px```          |
+| amongComponents | Display components from top to bottom.                                 |         ```false```          |
 
 

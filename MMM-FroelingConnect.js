@@ -14,7 +14,10 @@ Module.register("MMM-FroelingConnect", {
     defaults: {
         username : 'youremail@provider.com',
         password : 'yourPassword',
-        interval : 5 // Minutes
+        interval : 5, // Minutes,
+        showComponents: ['Austragung', 'Puffer 01', 'Boiler 01', 'Heizkreis 01', 'Kessel'],
+        modulWidth : '700px',
+        amongComponents: false
     },
 
     getStyles: function () {
@@ -41,6 +44,9 @@ Module.register("MMM-FroelingConnect", {
         displayData = [];
         const wrapperEl = document.createElement("div");
         wrapperEl.setAttribute("class", "mmm-froelingconnect-wrapper");
+        if(typeof self.config.modulWidth === 'string') {
+            wrapperEl.setAttribute("style", "max-width: "+ self.config.modulWidth + ";");
+        }
         Object.keys(self.componentStates).forEach(function(key, i) {
             var component = self.componentStates[key];
             displayData[i] = [];
@@ -73,21 +79,26 @@ Module.register("MMM-FroelingConnect", {
         //console.log(displayData);
 
         displayData.forEach(function(item, i) {
-            //item['name']
-            //item['pictureUrl']
-            var componentWrapper = document.createElement('div');
-            componentWrapper.setAttribute("class", "component-wrapper component-wrapper-" + i);
-            wrapperEl.appendChild(componentWrapper);
+            //console.log(item['name']);
+            //console.log(item['pictureUrl']);
+            if(self.config.showComponents.includes(item['name'])) {
+                var componentWrapper = document.createElement('div');
+                componentWrapper.setAttribute("class", "component-wrapper component-wrapper-" + i);
+                if(self.config.amongComponents) {
+                    componentWrapper.setAttribute("style", "flex-grow: 0; flex-basis: 100%;");
+                }
+                wrapperEl.appendChild(componentWrapper);
 
-            var headline = document.createElement('h6');
-            headline.innerText = item['name'];
-            componentWrapper.appendChild(headline);
+                var headline = document.createElement('h6');
+                headline.innerText = item['name'];
+                componentWrapper.appendChild(headline);
 
-            var img = document.createElement('object');
-            img.setAttribute("type", "image/svg+xml");
-            img.setAttribute("class", "component-image");
-            img.data = item['pictureUrl'];
-            componentWrapper.appendChild(img);
+                var img = document.createElement('object');
+                img.setAttribute("type", "image/svg+xml");
+                img.setAttribute("class", "component-image");
+                img.data = item['pictureUrl'];
+                componentWrapper.appendChild(img);
+            }
         });
 
         return wrapperEl;
