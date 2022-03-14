@@ -17,6 +17,7 @@ Module.register("MMM-FroelingConnect", {
         interval : 5, // Minutes,
         showComponents: ['Austragung', 'Puffer 01', 'Boiler 01', 'Heizkreis 01', 'Kessel'],
         modulWidth : '700px',
+        showComponentName: true,
         componentWithBorder: true,
         amongComponents: false
     },
@@ -46,7 +47,7 @@ Module.register("MMM-FroelingConnect", {
         const wrapperEl = document.createElement("div");
         wrapperEl.setAttribute("class", "mmm-froelingconnect-wrapper");
         if(typeof self.config.modulWidth === 'string') {
-            wrapperEl.setAttribute("style", "max-width: "+ self.config.modulWidth + ";");
+            wrapperEl.setAttribute("style", "width: "+ self.config.modulWidth + ";");
         }
         Object.keys(self.componentStates).forEach(function(key, i) {
             var component = self.componentStates[key];
@@ -94,9 +95,11 @@ Module.register("MMM-FroelingConnect", {
                 }
                 wrapperEl.appendChild(componentWrapper);
 
-                var headline = document.createElement('h6');
-                headline.innerText = item['name'];
-                componentWrapper.appendChild(headline);
+                if(self.config.showComponentName) {
+                    var headline = document.createElement('p');
+                    headline.innerText = item['name'];
+                    componentWrapper.appendChild(headline);
+                }
 
                 var img = document.createElement('object');
                 img.setAttribute("type", "image/svg+xml");
