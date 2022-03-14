@@ -42,6 +42,7 @@ modules: [
             interval: 5, // Interval in minutes how often the data should be fetched from the API.
             showComponents: ['Austragung', 'Puffer 01', 'Boiler 01', 'Heizkreis 01', 'Kessel'], // Names of the components to be visualized.
             modulWidth: '700px', // Max width in px, %, vw, em ... for this module.
+            componentWithBorder: true, // Display a border around each component.
             amongComponents: false // Display components from top to bottom.
         }
     }
@@ -52,13 +53,14 @@ modules: [
 
 The following property can be configured:
 
-| Option          | Description                                                            |                              Default value                               |
-|-----------------|------------------------------------------------------------------------|:------------------------------------------------------------------------:|
-| username        | FRÖLUNG Connect - APP Username or Email.                               |                       ```youremail@provider.com```                       |
-| password        | FRÖLUNG Connect - APP Password.                                        |                            ```yourPassword```                            |
-| interval        | Interval in minutes how often the data should be fetched from the API. |                                ```5```                                   |
-| showComponents  | Names of the components to be visualized.                              | ```['Austragung', 'Puffer 01', 'Boiler 01', 'Heizkreis 01', 'Kessel']``` |
-| modulWidth      | Max width in px, %, vw, em ... for this module.                        |                               ```700px```                                |
-| amongComponents | Display components from top to bottom.                                 |                               ```false```                                |
+| Option              | Description                                                            |                              Default value                               |
+|---------------------|------------------------------------------------------------------------|:------------------------------------------------------------------------:|
+| username            | FRÖLUNG Connect - APP Username or Email.                               |                       ```youremail@provider.com```                       |
+| password            | FRÖLUNG Connect - APP Password.                                        |                            ```yourPassword```                            |
+| interval            | Interval in minutes how often the data should be fetched from the API. |                                 ```5```                                  |
+| showComponents      | Names of the components to be visualized.                              | ```['Austragung', 'Puffer 01', 'Boiler 01', 'Heizkreis 01', 'Kessel']``` |
+| modulWidth          | Max width in px, %, vw, em ... for this module.                        |                               ```700px```                                |
+| componentWithBorder | Display a border around each component.                                |                                ```true```                                |
+| amongComponents     | Display components from top to bottom.                                 |                               ```false```                                |
 
 
