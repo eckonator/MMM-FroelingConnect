@@ -81,6 +81,7 @@ Module.register("MMM-FroelingConnect", {
         //console.log(displayData);
 
         displayData.forEach(function(item, i) {
+            console.log('MMM-FroelingConnect: Refreshing DOM...')
             //console.log(item['name']);
             //console.log(item['pictureUrl']);
             if(self.config.showComponents.includes(item['name'])) {
