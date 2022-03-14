@@ -13,6 +13,12 @@
     margin: 10px;
 }
 
+.mmm-froelingconnect-wrapper .component-wrapper.no-border {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
 .mmm-froelingconnect-wrapper .component-wrapper-1 {
     flex-basis: 33%;
 }
