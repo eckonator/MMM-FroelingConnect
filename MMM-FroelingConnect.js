@@ -41,51 +41,36 @@ Module.register("MMM-FroelingConnect", {
     },
 
     getDom: function() {
-        var self = this;
-        // Create wrapper element
-        displayData = [];
+        const self = this;
+
+        console.log('MMM-FroelingConnect: Refreshing DOM...');
+
         const wrapperEl = document.createElement("div");
         wrapperEl.setAttribute("class", "mmm-froelingconnect-wrapper");
         if(typeof self.config.modulWidth === 'string') {
             wrapperEl.setAttribute("style", "width: "+ self.config.modulWidth + ";");
         }
+
         Object.keys(self.componentStates).forEach(function(key, i) {
-            var component = self.componentStates[key];
-            displayData[i] = [];
-            Object.values(component).forEach(val => {
-                // console.log(val);
-                if(typeof val === 'string') {
-                    // Name der Komponente
-                    displayData[i]['name'] = val;
-                    // console.log(val);
-                    // var componentWrapper = document.createElement('div');
-                    // componentWrapper.setAttribute("class", "component-wrapper component-wrapper-" + i);
-                    // wrapperEl.appendChild(componentWrapper);
-                    //
+            const component = self.componentStates[key];
 
-                }
-                if(typeof val === 'object' && val !== null) {
-                    if(typeof val.pictureUrl === 'string') {
-                        displayData[i]['pictureUrl'] = val.pictureUrl;
-                        // console.log(val.pictureUrl);
-                        // var img = document.createElement('object');
-                        // img.setAttribute("type", "image/svg+xml");
-                        // img.setAttribute("class", "component-image");
-                        // img.data = val.pictureUrl;
-                        // document.querySelector("component-wrapper-" + i).appendChild(img);
-                    }
-                }
+            // console.log(component);
+            // console.log(component.name);
+            // console.log(component.componentId);
+            // console.log(component.topView.pictureUrl);
+
+            Object.keys(component.topView).forEach(function(key, i) {
+                const topView = component.topView[key];
+                console.log(topView);
             });
-        });
 
-        //console.log(displayData);
+            Object.keys(component.stateView).forEach(function(key, i) {
+                const stateView = component.stateView[key];
+                console.log(stateView);
+            });
 
-        displayData.forEach(function(item, i) {
-            console.log('MMM-FroelingConnect: Refreshing DOM...')
-            //console.log(item['name']);
-            //console.log(item['pictureUrl']);
-            if(self.config.showComponents.includes(item['name'])) {
-                var componentWrapper = document.createElement('div');
+            if(self.config.showComponents.includes(component.name)) {
+                const componentWrapper = document.createElement('div');
                 if(self.config.componentWithBorder) {
                     componentWrapper.setAttribute("class", "component-wrapper component-wrapper-" + i);
                 } else {
@@ -97,15 +82,15 @@ Module.register("MMM-FroelingConnect", {
                 wrapperEl.appendChild(componentWrapper);
 
                 if(self.config.showComponentName) {
-                    var headline = document.createElement('p');
-                    headline.innerText = item['name'];
+                    const headline = document.createElement('p');
+                    headline.innerText = component.name;
                     componentWrapper.appendChild(headline);
                 }
 
-                var img = document.createElement('object');
+                const img = document.createElement('object');
                 img.setAttribute("type", "image/svg+xml");
                 img.setAttribute("class", "component-image");
-                img.data = item['pictureUrl'];
+                img.data = component.topView.pictureUrl;
                 componentWrapper.appendChild(img);
             }
         });
