@@ -15,9 +15,41 @@ Module.register("MMM-FroelingConnect", {
         username : 'youremail@provider.com',
         password : 'yourPassword',
         interval : 5, // Minutes,
-        showComponents: ['Austragung', 'Puffer 01', 'Boiler 01', 'Heizkreis 01', 'Kessel'],
+        showComponents: [
+            'Austragung',
+            'Puffer 01',
+            'Boiler 01',
+            'Heizkreis 01',
+            'Kessel'
+        ],
+        showComponentDetailValues: [
+            'Füllstand im Pelletsbehälter',
+            'Resetierbarer t-Zähler:',
+            'Resetierbarer kg-Zähler:',
+            'Zähler RESET',
+            'Pelletlager Restbestand',
+            'Pelletlager Mindestbestand',
+            'Pelletverbrauch Gesamt',
+            'Pelletverbrauch-Zähler',
+            'Puffertemperatur oben',
+            'Puffertemperatur unten',
+            'Pufferladezustand',
+            'Pufferpumpen Ansteuerung',
+            'Boilertemperatur oben',
+            'Boilerpumpe Ansteuerung',
+            'Vorlauf-Isttemperatur',
+            'Vorlauf-Solltemperatur',
+            'Außentemperatur',
+            'Kesseltemperatur',
+            'Abgastemperatur',
+            'Verbleibende Heizstunden bis zur Asche entleeren Warnung',
+            'Saugzug - Ansteuerung',
+            'Restsauerstoffgehalt'
+        ],
         modulWidth : '700px',
         showComponentName: true,
+        showComponentImage: true,
+        showComponentDetails: true,
         componentWithBorder: true,
         amongComponents: false
     },
@@ -54,21 +86,6 @@ Module.register("MMM-FroelingConnect", {
         Object.keys(self.componentStates).forEach(function(key, i) {
             const component = self.componentStates[key];
 
-            // console.log(component);
-            // console.log(component.name);
-            // console.log(component.componentId);
-            // console.log(component.topView.pictureUrl);
-
-            Object.keys(component.topView).forEach(function(key, i) {
-                const topView = component.topView[key];
-                console.log(topView);
-            });
-
-            Object.keys(component.stateView).forEach(function(key, i) {
-                const stateView = component.stateView[key];
-                console.log(stateView);
-            });
-
             if(self.config.showComponents.includes(component.name)) {
                 const componentWrapper = document.createElement('div');
                 if(self.config.componentWithBorder) {
@@ -83,15 +100,40 @@ Module.register("MMM-FroelingConnect", {
 
                 if(self.config.showComponentName) {
                     const headline = document.createElement('p');
+                    headline.setAttribute("class", "component-headline");
                     headline.innerText = component.name;
                     componentWrapper.appendChild(headline);
                 }
 
-                const img = document.createElement('object');
-                img.setAttribute("type", "image/svg+xml");
-                img.setAttribute("class", "component-image");
-                img.data = component.topView.pictureUrl;
-                componentWrapper.appendChild(img);
+                if(self.config.showComponentImage) {
+                    const img = document.createElement('object');
+                    img.setAttribute("type", "image/svg+xml");
+                    img.setAttribute("class", "component-image");
+                    img.data = component.topView.pictureUrl;
+                    componentWrapper.appendChild(img);
+                }
+
+                if(self.config.showComponentDetails) {
+                    let componentDetailValue = '';
+                    Object.keys(component.stateView).forEach(function (key, i) {
+                        const stateView = component.stateView[key];
+                        //console.log(stateView);
+                        if (self.config.showComponentDetailValues.includes(stateView.displayName)) {
+                            let currentComponentDetail = '';
+                            if (stateView.displayName.substring(stateView.displayName.length - 1) === ":") {
+                                currentComponentDetail = stateView.displayName + ' ' + stateView.value + ' ' + stateView.unit + '<br />';
+                            } else {
+                                currentComponentDetail = stateView.displayName + ': ' + stateView.value + ' ' + stateView.unit + '<br />';
+                            }
+                            componentDetailValue += currentComponentDetail;
+                        }
+                    });
+
+                    const componentDetail = document.createElement('p');
+                    componentDetail.setAttribute("class", "component-details");
+                    componentDetail.innerHTML = componentDetailValue;
+                    componentWrapper.appendChild(componentDetail);
+                }
             }
         });
 
