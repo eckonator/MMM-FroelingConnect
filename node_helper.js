@@ -67,7 +67,7 @@ module.exports = NodeHelper.create({
 			self.refreshTokenInterval = setInterval(() => {
 				self.loginState = false;
 				self.login();
-			}, 11.5 * 60 * 60 * 1000);
+			}, 60 * 60 * 1000);
 		}
 	},
 
