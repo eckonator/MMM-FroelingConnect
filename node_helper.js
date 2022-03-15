@@ -11,6 +11,7 @@ module.exports = NodeHelper.create({
 	requestClient : axios.create(),
 	updateInterval : null,
 	session : {},
+	ownAPIServerStarted : false,
 
 	login: async function(payload) {
 		const self = this;
@@ -38,8 +39,8 @@ module.exports = NodeHelper.create({
 			// console.log('MMM-FroelingConnect: ' + response.statusText);
 			// console.log('MMM-FroelingConnect: ' + response.headers);
 			// console.log('MMM-FroelingConnect: ' + response.config);
-			//console.log('MMM-FroelingConnect: ' + response.headers["authorization"]);
-			console.log({session: response.data, token: response.headers["authorization"], interval: payload.interval});
+			// console.log('MMM-FroelingConnect: ' + response.headers["authorization"]);
+			// console.log({session: response.data, token: response.headers["authorization"], interval: payload.interval});
 			self.sendSocketNotification("MMM-FroelingConnect-Login-OK", {session: response.data, token: response.headers["authorization"], interval: payload.interval});
 		}).catch(function (error) {
 			console.log(error);
@@ -55,7 +56,8 @@ module.exports = NodeHelper.create({
 			await self.updateDevices();
 			//console.log(self.componentStates);
 			self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
-			if(self.config.runOwnJsonApiServerInLocalNetwork) {
+			if(self.config.runOwnJsonApiServerInLocalNetwork && !self.ownAPIServerStarted) {
+				self.ownAPIServerStarted = true;
 				await self.startOwnJsonApiServer();
 			}
 			self.updateInterval = setInterval(async () => {
