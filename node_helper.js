@@ -8,7 +8,6 @@ module.exports = NodeHelper.create({
 	componentStates : {},
 	requestClient : axios.create(),
 	updateInterval : null,
-	refreshTokenInterval : null,
 	session : {},
 
 	login: async function(payload) {
@@ -54,14 +53,10 @@ module.exports = NodeHelper.create({
 			//console.log(self.componentStates);
 			self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
 			self.updateInterval = setInterval(async () => {
-				await self.updateDevices();
+				await self.login();
 				//console.log(self.componentStates);
 				self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
 			}, payload.interval * 60 * 1000);
-			//}, 20 * 1000);
-			self.refreshTokenInterval = setInterval(() => {
-				self.login();
-			}, 60 * 60 * 1000);
 		}
 	},
 

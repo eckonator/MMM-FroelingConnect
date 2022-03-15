@@ -14,7 +14,7 @@ Module.register("MMM-FroelingConnect", {
     defaults: {
         username : 'youremail@provider.com',
         password : 'yourPassword',
-        interval : 5, // Minutes,
+        interval : 10, // Minutes,
         showComponents: [
             'Austragung',
             'Puffer 01',
