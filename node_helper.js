@@ -3,6 +3,7 @@ const axios = require('axios').default;
 
 module.exports = NodeHelper.create({
 
+	config : {},
 	deviceArray : [],
 	componentsArray : {},
 	componentStates : {},
@@ -37,6 +38,7 @@ module.exports = NodeHelper.create({
 			// console.log('MMM-FroelingConnect: ' + response.headers);
 			// console.log('MMM-FroelingConnect: ' + response.config);
 			//console.log('MMM-FroelingConnect: ' + response.headers["authorization"]);
+			console.log({session: response.data, token: response.headers["authorization"], interval: payload.interval});
 			self.sendSocketNotification("MMM-FroelingConnect-Login-OK", {session: response.data, token: response.headers["authorization"], interval: payload.interval});
 		}).catch(function (error) {
 			console.log(error);
@@ -53,10 +55,12 @@ module.exports = NodeHelper.create({
 			//console.log(self.componentStates);
 			self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
 			self.updateInterval = setInterval(async () => {
-				await self.login();
-				//console.log(self.componentStates);
+				await self.updateDevices();
 				self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
 			}, payload.interval * 60 * 1000);
+			self.refreshTokenInterval = setInterval(() => {
+				self.login(self.config);
+			}, 11.5 * 60 * 60 * 1000);
 		}
 	},
 
@@ -195,7 +199,8 @@ module.exports = NodeHelper.create({
 		var self = this;
 		//console.log('MMM-FroelingConnect: ' + notification);
 		if (notification === "MMM-FroelingConnect-Login") {
-			self.login(payload);
+			self.config = payload;
+			self.login(self.config);
 		}
 		if (notification === "MMM-FroelingConnect-InitDevices") {
 			self.bootup(payload);
