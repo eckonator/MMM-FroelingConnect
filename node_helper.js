@@ -1,5 +1,6 @@
 const NodeHelper = require('node_helper');
 const axios = require('axios').default;
+const http = require('http');
 
 module.exports = NodeHelper.create({
 
@@ -12,7 +13,7 @@ module.exports = NodeHelper.create({
 	session : {},
 
 	login: async function(payload) {
-		var self = this;
+		const self = this;
 		if(Object.keys(self.componentStates).length > 0 && self.componentStates.constructor === Object) {
 			self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
 		};
@@ -46,7 +47,7 @@ module.exports = NodeHelper.create({
 	},
 
 	bootup: async function(payload) {
-		var self = this;
+		const self = this;
 		if (payload.token) {
 			self.token = payload.token;
 			self.session = payload.session;
@@ -54,6 +55,7 @@ module.exports = NodeHelper.create({
 			await self.updateDevices();
 			//console.log(self.componentStates);
 			self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
+			await self.startOwnJsonApiServer();
 			self.updateInterval = setInterval(async () => {
 				await self.updateDevices();
 				self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
@@ -65,7 +67,7 @@ module.exports = NodeHelper.create({
 	},
 
 	getDeviceList: async function() {
-		var self = this;
+		const self = this;
 		const urlArray = ["https://connect-api.froeling.com/app/v1.0/resources/user/getFacilities", "https://connect-api.froeling.com/app/v1.0/resources/user/getServiceFacilities"];
 		for (const url of urlArray) {
 			await self.requestClient({
@@ -124,7 +126,7 @@ module.exports = NodeHelper.create({
 	},
 
 	updateDevices: async function() {
-		var self = this;
+		const self = this;
 		const statusArray = [
 			{
 				path: "details",
@@ -194,9 +196,18 @@ module.exports = NodeHelper.create({
 			}
 		}
 	},
+	
+	startOwnJsonApiServer: async function() {
+		const self = this;
+		const app = http.createServer(function (req, res) {
+			res.setHeader('Content-Type', 'application/json');
+			res.end(JSON.stringify(self.componentStates, null, 3));
+		});
+		app.listen(3000);	
+	},
 
 	socketNotificationReceived: function (notification, payload) {
-		var self = this;
+		const self = this;
 		//console.log('MMM-FroelingConnect: ' + notification);
 		if (notification === "MMM-FroelingConnect-Login") {
 			self.config = payload;
