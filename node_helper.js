@@ -205,7 +205,7 @@ module.exports = NodeHelper.create({
 		const self = this;
 		const app = http.createServer(function (req, res) {
 			res.setHeader('Content-Type', 'application/json');
-			res.end(JSON.stringify(self.componentStates, null, 3));
+			res.end(JSON.stringify(self.componentStates));
 		});
 		app.listen(self.config.ownJsonApiServerPort);
 	},
