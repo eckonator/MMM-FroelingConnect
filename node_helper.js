@@ -16,7 +16,7 @@ module.exports = NodeHelper.create({
 		const self = this;
 		if(Object.keys(self.componentStates).length > 0 && self.componentStates.constructor === Object) {
 			self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
-		};
+		}
 		self.requestClient({
 			method: "post",
 			url: "https://connect-api.froeling.com/app/v1.0/resources/loginNew",
