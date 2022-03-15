@@ -55,7 +55,9 @@ module.exports = NodeHelper.create({
 			await self.updateDevices();
 			//console.log(self.componentStates);
 			self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
-			await self.startOwnJsonApiServer();
+			if(self.config.runOwnJsonApiServerInLocalNetwork) {
+				await self.startOwnJsonApiServer();
+			}
 			self.updateInterval = setInterval(async () => {
 				await self.updateDevices();
 				self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
@@ -203,7 +205,7 @@ module.exports = NodeHelper.create({
 			res.setHeader('Content-Type', 'application/json');
 			res.end(JSON.stringify(self.componentStates, null, 3));
 		});
-		app.listen(3000);	
+		app.listen(self.config.ownJsonApiServerPort);
 	},
 
 	socketNotificationReceived: function (notification, payload) {

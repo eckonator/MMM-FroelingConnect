@@ -51,7 +51,9 @@ Module.register("MMM-FroelingConnect", {
         showComponentImage: true,
         showComponentDetails: true,
         componentWithBorder: true,
-        amongComponents: false
+        amongComponents: false,
+        runOwnJsonApiServerInLocalNetwork: false,
+        ownJsonApiServerPort: 3000
     },
 
     getStyles: function () {
