@@ -11,6 +11,7 @@ module.exports = NodeHelper.create({
 	requestClient : axios.create(),
 	updateInterval : null,
 	session : {},
+	ownAPIStateData: {},
 	ownAPIServerStarted : false,
 
 	login: async function(payload) {
@@ -189,6 +190,21 @@ module.exports = NodeHelper.create({
 							stateView: response.data.stateView
 						}
 					}, self.componentStates);
+
+					self.ownAPIStateData = Object.assign({
+						[response.data.displayName
+							.toString()
+							.toLowerCase()
+							.replace(" ", "")
+							.replace(":", "")
+							.replace(",", "")
+							.replace(".", "")
+							.replace("ä", "ae")
+							.replace("ö", "oe")
+							.replace("ü", "ue")
+							.replace("ß", "ss")
+							]: response.data.stateView
+					}, self.ownAPIStateData);
 					//self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
 					//console.log(self.componentStates)
 					if (!response.data) {
@@ -203,10 +219,12 @@ module.exports = NodeHelper.create({
 	
 	startOwnJsonApiServer: async function() {
 		const self = this;
-		const app = http.createServer(function (req, res) {
-			res.setHeader('Content-Type', 'application/json');
-			res.end(JSON.stringify(self.componentStates));
-		});
+		const requestListener = function(req, res) {
+			res.setHeader("Content-Type", "application/json");
+			res.writeHead(200);
+			res.end(JSON.stringify(self.ownAPIStateData));
+		};
+		const app = http.createServer(requestListener);
 		app.listen(self.config.ownJsonApiServerPort);
 	},
 
