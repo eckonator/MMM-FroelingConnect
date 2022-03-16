@@ -67,7 +67,7 @@ module.exports = NodeHelper.create({
 				//console.log(self.componentStates.lastUpdate);
 				await self.updateDevices();
 				self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
-			}, /*payload.interval **/ 60 * 1000);
+			}, payload.interval * 60 * 1000);
 			self.refreshTokenInterval = setInterval(() => {
 				self.login(self.config);
 			}, 11.5 * 60 * 60 * 1000);
