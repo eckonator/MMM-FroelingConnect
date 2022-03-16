@@ -141,10 +141,10 @@ Module.register("MMM-FroelingConnect", {
 
         console.log(self.componentStates);
 
-        const componentDebugTime = document.createElement('p');
-        componentDebugTime.setAttribute("class", "component-debug-time");
-        componentDebugTime.innerHTML = self.componentStates.time;
-        componentDebugTime.appendChild(wrapperEl);
+        const componentLastUpdate = document.createElement('p');
+        componentLastUpdate.setAttribute("class", "component-last-update");
+        componentLastUpdate.innerHTML = self.componentStates.lastUpdate;
+        componentLastUpdate.appendChild(wrapperEl);
 
         return wrapperEl;
     },

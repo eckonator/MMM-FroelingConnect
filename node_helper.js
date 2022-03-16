@@ -182,8 +182,9 @@ module.exports = NodeHelper.create({
 					//console.log('MMM-FroelingConnect: ' + JSON.stringify(response.data));
 					console.log('MMM-FroelingConnect: Updating component "' + response.data.displayName.toString() + '" to componentStates');
 					//console.log(response.data);
+					let lastUpdate = Date.now();
 					self.componentStates = Object.assign({
-						time: Date.now(),
+						lastUpdate: lastUpdate.toUTCString(),
 						[response.data.componentId.toString()]: {
 							name: response.data.displayName.toString(),
 							componentId: response.data.componentId.toString(),
@@ -193,7 +194,7 @@ module.exports = NodeHelper.create({
 					}, self.componentStates);
 
 					self.ownAPIStateData = Object.assign({
-						time: Date.now(),
+						lastUpdate: lastUpdate.toUTCString(),
 						[response.data.displayName
 							.toString()
 							.toLowerCase()
