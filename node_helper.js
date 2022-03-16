@@ -11,6 +11,10 @@ module.exports = NodeHelper.create({
 	requestClient : axios.create(),
 	updateInterval : null,
 	session : {},
+	froelingAPIerror : {
+		status: null,
+		statusText : null
+	},
 	ownAPIStateData: {},
 	ownAPIServerStarted : false,
 	lastUpdate: new Date(Date.now()),
@@ -43,9 +47,14 @@ module.exports = NodeHelper.create({
 			// console.log('MMM-FroelingConnect: ' + response.config);
 			// console.log('MMM-FroelingConnect: ' + response.headers["authorization"]);
 			// console.log({session: response.data, token: response.headers["authorization"], interval: payload.interval});
+			self.froelingAPIerror.status = null;
+			self.froelingAPIerror.statusText = null;
 			self.sendSocketNotification("MMM-FroelingConnect-Login-OK", {session: response.data, token: response.headers["authorization"], interval: payload.interval});
 		}).catch(function (error) {
-			console.log(error);
+			//console.log(error.response.status);
+			self.froelingAPIerror.status = error.response.status;
+			self.froelingAPIerror.statusText = error.response.statusText;
+			self.sendSocketNotification("MMM-FroelingConnect-Login-ERROR", {froelingAPIerror: self.froelingAPIerror, interval: payload.interval});
 		});
 	},
 
