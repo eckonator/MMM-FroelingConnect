@@ -183,8 +183,8 @@ module.exports = NodeHelper.create({
 					console.log('MMM-FroelingConnect: Updating component "' + response.data.displayName.toString() + '" to componentStates');
 					//console.log(response.data);
 					self.componentStates = Object.assign({
+						time: Date.now(),
 						[response.data.componentId.toString()]: {
-							time: Date.now(),
 							name: response.data.displayName.toString(),
 							componentId: response.data.componentId.toString(),
 							topView: response.data.topView,

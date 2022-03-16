@@ -139,6 +139,13 @@ Module.register("MMM-FroelingConnect", {
             }
         });
 
+        console.log(self.componentStates);
+
+        const componentDebugTime = document.createElement('p');
+        componentDebugTime.setAttribute("class", "component-debug-time");
+        componentDebugTime.innerHTML = self.componentStates.time;
+        componentDebugTime.appendChild(wrapperEl);
+
         return wrapperEl;
     },
 
