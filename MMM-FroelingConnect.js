@@ -95,7 +95,7 @@ Module.register("MMM-FroelingConnect", {
 
             const apiErrorStatus = document.createElement('h4');
             apiErrorStatus.setAttribute("class", "api-error-status text-center");
-            apiErrorStatus.innerHTML = '<strong>' + self.froelingAPIerror.status + ':</strong> ' + self.froelingAPIerror.statusText;
+            apiErrorStatus.innerHTML = '<strong>' + self.froelingAPIerror.status + ':</strong> ' + self.froelingAPIerror.statusText + '<br /><small>Try to reconnect every ' + self.config.interval + ' minutes...</small>';
             wrapperEl.appendChild(apiErrorStatus);
 
         } else {
