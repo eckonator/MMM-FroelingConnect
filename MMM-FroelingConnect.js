@@ -140,11 +140,10 @@ Module.register("MMM-FroelingConnect", {
         });
 
         //console.log(self.componentStates.lastUpdate);
-
-        const componentLastUpdate = document.createElement('p');
-        componentLastUpdate.setAttribute("class", "component-last-update");
-        componentLastUpdate.innerText = self.componentStates.lastUpdate;
-        wrapperEl.appendChild(componentLastUpdate);
+        // const componentLastUpdate = document.createElement('p');
+        // componentLastUpdate.setAttribute("class", "component-last-update");
+        // componentLastUpdate.innerText = self.componentStates.lastUpdate;
+        // wrapperEl.appendChild(componentLastUpdate);
 
         return wrapperEl;
     },

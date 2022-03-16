@@ -56,6 +56,7 @@ module.exports = NodeHelper.create({
 			self.session = payload.session;
 			await self.getDeviceList();
 			await self.updateDevices();
+			//console.log(self.componentStates.lastUpdate);
 			//console.log(self.componentStates);
 			self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
 			if(self.config.runOwnJsonApiServerInLocalNetwork && !self.ownAPIServerStarted) {
@@ -63,13 +64,33 @@ module.exports = NodeHelper.create({
 				await self.startOwnJsonApiServer();
 			}
 			self.updateInterval = setInterval(async () => {
+				//console.log(self.componentStates.lastUpdate);
 				await self.updateDevices();
 				self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
-			}, payload.interval * 60 * 1000);
+			}, /*payload.interval **/ 60 * 1000);
 			self.refreshTokenInterval = setInterval(() => {
 				self.login(self.config);
 			}, 11.5 * 60 * 60 * 1000);
 		}
+	},
+
+	mergeComponentStates: async function(current, update) {
+		const self = this;
+		Object.keys(update).forEach(function(key) {
+			// if update[key] exist, and it's not a string or array,
+			// we go in one level deeper
+			if (current.hasOwnProperty(key)
+				&& typeof current[key] === 'object'
+				&& !(current[key] instanceof Array)) {
+				self.mergeComponentStates(current[key], update[key]);
+
+				// if update[key] doesn't exist in current, or it's a string
+				// or array, then assign/overwrite current[key] to update[key]
+			} else {
+				current[key] = update[key];
+			}
+		});
+		return current;
 	},
 
 	getDeviceList: async function() {
@@ -185,7 +206,7 @@ module.exports = NodeHelper.create({
 					//console.log(response.data);
 					self.lastUpdate = new Date(Date.now());
 					let tempLastUpdate = self.lastUpdate;
-					self.componentStates = Object.assign({
+					self.mergeComponentStates(self.componentStates, {
 						lastUpdate: tempLastUpdate.toUTCString(),
 						[response.data.componentId.toString()]: {
 							name: response.data.displayName.toString(),
@@ -193,9 +214,9 @@ module.exports = NodeHelper.create({
 							topView: response.data.topView,
 							stateView: response.data.stateView
 						}
-					}, self.componentStates);
+					});
 
-					self.ownAPIStateData = Object.assign({
+					self.mergeComponentStates(self.ownAPIStateData, {
 						lastUpdate: tempLastUpdate.toUTCString(),
 						[response.data.displayName
 							.toString()
@@ -208,8 +229,8 @@ module.exports = NodeHelper.create({
 							.replace("ö", "oe")
 							.replace("ü", "ue")
 							.replace("ß", "ss")
-						]: response.data.stateView
-					}, self.ownAPIStateData);
+							]: response.data.stateView
+					});
 					//self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
 					//console.log(self.componentStates);
 					//console.log(self.ownAPIStateData);
@@ -226,7 +247,7 @@ module.exports = NodeHelper.create({
 	startOwnJsonApiServer: async function() {
 		const self = this;
 		const requestListener = function(req, res) {
-			res.setHeader("Content-Type", "application/json");
+			res.setHeader("Content-Type", "application/json; charset=utf-8");
 			res.writeHead(200);
 			res.end(JSON.stringify(self.ownAPIStateData));
 		};
