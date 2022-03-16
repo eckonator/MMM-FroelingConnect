@@ -184,16 +184,16 @@ module.exports = NodeHelper.create({
 					//console.log(response.data);
 					self.componentStates = Object.assign({
 						[response.data.componentId.toString()]: {
-							//time: Date.now(),
+							time: Date.now(),
 							name: response.data.displayName.toString(),
 							componentId: response.data.componentId.toString(),
 							topView: response.data.topView,
 							stateView: response.data.stateView
 						}
-					});
+					}, self.componentStates);
 
 					self.ownAPIStateData = Object.assign({
-						//time: Date.now(),
+						time: Date.now(),
 						[response.data.displayName
 							.toString()
 							.toLowerCase()
@@ -206,7 +206,7 @@ module.exports = NodeHelper.create({
 							.replace("ü", "ue")
 							.replace("ß", "ss")
 						]: response.data.stateView
-					});
+					}, self.ownAPIStateData);
 					//self.sendSocketNotification("MMM-FroelingConnect-newCompontentState", self.componentStates);
 					//console.log(self.componentStates);
 					//console.log(self.ownAPIStateData);
