@@ -89,7 +89,7 @@ Module.register("MMM-FroelingConnect", {
             wrapperEl.setAttribute("style", "width: "+ self.config.modulWidth + ";");
         }
 
-        console.log(typeof self.froelingAPIerror.status);
+        //console.log(typeof self.froelingAPIerror.status);
 
         if(typeof self.froelingAPIerror.status === 'number') {
 
