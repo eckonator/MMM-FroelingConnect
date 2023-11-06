@@ -1,6 +1,6 @@
 const NodeHelper = require('node_helper');
 const axios = require('axios').default;
-const http = require('http');
+const http = require('node:http');
 
 module.exports = NodeHelper.create({
 
