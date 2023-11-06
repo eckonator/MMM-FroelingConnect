@@ -1,6 +1,6 @@
 /* global Module */
 
-/* Magic Mirror
+/* MagicMirror²
  * Module: MMM-FroelingConnect
  *
  * By Markus Eckert https://github.com/eckonator/
