@@ -5,8 +5,7 @@
   "author": "Markus Eckert",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.24.0",
-    "http": "latest"
+    "axios": "^0.24.0"
   },
   "main": "MMM-FroelingConnect.js",
   "devDependencies": {},
